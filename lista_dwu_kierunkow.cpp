@@ -130,6 +130,18 @@ int ifExist(struct Lista * Head, int liczba){
     return 0;
 }
 
+void edit(struct Lista * Head, int liczba, int id){
+    if(id>=0 && id < count(Head)){
+        for(int i = 0; i<id;i++,Head=Head->Next);
+        Head->liczba=liczba;
+    }
+}
+
+int get(struct Lista * Head, int id){
+    for(int i = 0;i<id;i++,Head=Head->Next);
+    return Head->liczba;
+}
+
 int main() {
     struct Lista * Head;
     Head = Append(Head,1);
@@ -140,6 +152,7 @@ int main() {
     Head = Append(Head,6);
     Druk(Head);
     printf("ilosc: %i\n", count(Head));
+    printf("usuwamy 3 indeks\n");
     Head = Del(Head,3);
     Druk(Head);
     printf("dodajemy 1\n");
@@ -151,6 +164,9 @@ int main() {
     else{
         printf("nie istnieje 1\n");
     }
-
+    printf("zamieniamy wartosc 3 indeks na 10\n");
+    edit(Head,10,3);
+    Druk(Head);
+    printf("Lista[%i] = %i \n", 2,get(Head,2));
     return 0;
 }
