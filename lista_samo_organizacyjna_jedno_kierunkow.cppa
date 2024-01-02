@@ -1,0 +1,49 @@
+#include <cstdio>
+#include <cstdlib>
+
+struct Lista {
+    int liczba;
+    struct Lista * Next;
+};
+
+struct Lista * Insert(struct Lista * Head, int liczba){
+    struct Lista * p = (struct Lista *)calloc(1,sizeof(struct Lista));
+    p->liczba = liczba;
+    if(Head==NULL){
+        p->Next = NULL;
+        Head=p;
+    }
+    else{
+        struct Lista *temp = Head;
+        if(temp->liczba>=p->liczba){
+            p->Next=temp;
+            Head=p;
+        }
+        else{
+            while (temp->Next!=NULL && temp->Next->liczba<p->liczba){
+                temp=temp->Next;
+            }
+            p->Next=temp->Next;
+            temp->Next=p;
+        }
+    }
+    return Head;
+}
+
+void Druk(struct Lista * Head){
+    while(Head!=NULL){
+        printf("%d\n",Head->liczba);
+        Head = Head->Next;
+    }
+}
+
+int main(){
+    struct Lista * Head = NULL;
+    Head = Insert(Head,24);
+    Head = Insert(Head,15);
+    Head = Insert(Head,34);
+    Head = Insert(Head,18);
+    Head = Insert(Head,30);
+    Druk(Head);
+    return 0;
+}
