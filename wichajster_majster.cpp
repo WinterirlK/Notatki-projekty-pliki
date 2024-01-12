@@ -22,7 +22,8 @@ int main() {
         scanf("%d %d", &a, &b);
         if (ifExist(dane[a - 1], b)) {
             dane[a - 1] = Delete(dane[a - 1], b);
-        } else {
+        }
+        else {
             dane[b - 1] = Insert(dane[b - 1], a);
         }
     }
@@ -37,48 +38,30 @@ int main() {
 struct Lista *Insert(struct Lista *Head, int id) {
     struct Lista *p = (struct Lista *)malloc(1 * sizeof(struct Lista));
     p->id = id;
-
-    if (Head == NULL || id < Head->id) {
-        p->Next = Head;
-        Head = p;
-    } else {
-        struct Lista *tmp = Head;
-        while (tmp->Next != NULL && tmp->Next->id < id) {
-            tmp = tmp->Next;
-        }
-        p->Next = tmp->Next;
-        tmp->Next = p;
-    }
-
+    p->Next = Head;
+    Head = p;
     return Head;
 }
 
 struct Lista *Delete(struct Lista *Head, int id) {
-    if (Head == NULL) {
-        return NULL;
-    }
-
     struct Lista *tmp = Head;
-
     if (id == Head->id) {
         Head = Head->Next;
         free(tmp);
-    } else {
+    }
+    else {
         while (tmp->Next != NULL && tmp->Next->id != id) {
             tmp = tmp->Next;
         }
-        if (tmp->Next != NULL) {
-            struct Lista *p = tmp->Next;
-            tmp->Next = p->Next;
-            free(p);
-        }
+        struct Lista *p = tmp->Next;
+        tmp->Next = p->Next;
+        free(p);
     }
-
     return Head;
 }
 
 int ifExist(struct Lista *Head, int id) {
-    while (Head != NULL && Head->id <= id) {
+    while (Head != NULL) {
         if (Head->id == id) {
             return 1;
         }
