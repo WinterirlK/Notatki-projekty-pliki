@@ -1,5 +1,7 @@
 #include <cstdio>
 #include <cstdbool>
+#define MOD 1000000007
+
 
 bool Left_to_right = true;
 bool Right_to_left = false;
@@ -9,12 +11,15 @@ int Permutacja(int size, int k);
 int zmieszanie(int *A, int size);
 int FindMaxMobileElement(int * A, bool * arrow, int size);
 void change_arrow(int *A, int zmieniany, bool * arrow, int size);
+long long modInverse(long long a, long long mod);
 
 //18446744073709551615
 //silnia 65-max
 int main() {
-    unsigned long long  int wynik = ((Permutacja(3,2)/silnia(3))%1000000007);
-    printf("%llu", wynik);
+    int x,y;
+    scanf("%d %d",&x,&y);
+    long long result = (Permutacja(x,y) * modInverse(silnia(x), MOD)) % MOD;
+    printf("%lld", result);
 }
 
 unsigned long long int silnia(int n){
@@ -121,4 +126,15 @@ int zmieszanie(int *A, int size){
         }
     }
     return k;
+}
+
+long long modInverse(long long a, long long mod){
+    long long result = 1;
+    for (int exp = mod - 2; exp > 0; exp /= 2) {
+        if (exp % 2 == 1){
+            result = (result * a) % mod;
+        }
+    a = (a * a) % mod;
+    }
+    return result;
 }
