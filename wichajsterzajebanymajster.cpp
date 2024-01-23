@@ -8,7 +8,7 @@ bool Right_to_left = false;
 
 unsigned long long int silnia(int n);
 int Permutacja(int size, int k);
-int zmieszanie(int *A, int size);
+int zmieszanie(int *A, int size, int k);
 int FindMaxMobileElement(int * A, bool * arrow, int size);
 void change_arrow(int *A, int zmieniany, bool * arrow, int size);
 long long modInverse(long long a, long long mod);
@@ -44,7 +44,7 @@ int Permutacja(int size, int k){
         A[i-1]=i;
         arrow[i-1] = Right_to_left;
     }
-    if(k==zmieszanie(A,size))ilosc++;
+    if(k==1)ilosc++;
     unsigned long long int liczba_permutacji = silnia(size)-1;
     int tmp1, tmp2;
     bool tmp3;
@@ -69,7 +69,7 @@ int Permutacja(int size, int k){
             arrow[tmp1] = tmp3;
         }
         change_arrow(A,zmieniany,arrow,size);
-        if(k==zmieszanie(A,size))ilosc++;
+        if(zmieszanie(A,size,k))ilosc++;
     }
 
 
@@ -91,10 +91,10 @@ int FindMaxMobileElement(int * A, bool * arrow, int size){
     for(int i = 0;i<size;i++){
         if(arrow[i]){
             if(i<size-1 && A[i]>A[i+1]){
-              if(A[i]>najwiekszy){
-                  najwiekszy = A[i];
-                  id = i;
-              }
+                if(A[i]>najwiekszy){
+                    najwiekszy = A[i];
+                    id = i;
+                }
             }
         }
         else{
@@ -109,32 +109,39 @@ int FindMaxMobileElement(int * A, bool * arrow, int size){
     return id;
 }
 
-int zmieszanie(int *A, int size){
-    int k=1;
+int zmieszanie(int *A, int size, int k){
     int B[size];
+    int temp;
     for(int i = 0;i<size;i++){
         B[i] = A[i];
     }
-    etykieta:
-        for(int i = 0;i<size;i++){
-            B[i] = A[B[i]-1];
+    for(int i = 0;i<k;i++){
+        temp = 1;
+        for(int j = 0;j<size;j++){
+            B[j] = A[B[j]-1];
         }
-    for(int i =0;i<size;i++){
-        if(A[i] != B[i]){
-            k++;
-            goto etykieta;
+        for(int j = 0;j<size;j++){
+            if(A[j]!=B[j]){
+                temp = 0;
+            }
+        }
+        if(temp && i<k-1){
+            return 0;
+        }
+        else if(temp && i==k-1){
+            return 1;
         }
     }
-    return k;
+    return 0;
 }
-
+//B[i] = A[B[i]-1];
 long long modInverse(long long a, long long mod){
     long long result = 1;
     for (int exp = mod - 2; exp > 0; exp /= 2) {
         if (exp % 2 == 1){
             result = (result * a) % mod;
         }
-    a = (a * a) % mod;
+        a = (a * a) % mod;
     }
     return result;
 }
