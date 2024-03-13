@@ -146,23 +146,25 @@ int V[4] = {0,0,0,0};
 int DFS(int i_A, struct Lista ** Graf) {
     int Nr=0; //licznik
     struct Stos * Top = NULL;
-    Top = push(Top,Graf[i_A]->v);
+    struct Lista *tmp = Graf[i_A];
     V[i_A] = ++Nr;
+    while(tmp!=NULL && tmp->v != -1){ //wrzucenie na stos po kolei wszystkich sąsiadów
+        Top = push(Top, tmp->v);
+        tmp=tmp->Next;
     while(Top!=NULL){
         Top = pop(Top,&i_A); //zczytywanie ze stosu | jeśli przeszła pętla while to wierzchołek sprawdzany będzie ostatnim zapisanym sąsiadem
         if(V[i_A]==0){
             V[i_A] = ++Nr;
-            struct Lista *tmp = Graf[i_A];
+            tmp = Graf[i_A];
             while(tmp!=NULL && tmp->v != -1){ //wrzucenie na stos po kolei wszystkich sąsiadów
                 Top = push(Top, tmp->v);
                 tmp=tmp->Next;
             }
         }
     }
+    
+    }
 }
-
-
-
 
 
 int main()
