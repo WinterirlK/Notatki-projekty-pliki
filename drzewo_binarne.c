@@ -196,8 +196,8 @@ start:
 
 	tree->value = tmp->value;
 	
-	//delete(tmp->parent, tmp->value);
-	tree = tmp->parent;
+	//delete(tmp, tmp->value);
+	tree = tmp;
 	key = tmp->value;
 	goto start;	
 }
